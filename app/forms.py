@@ -45,3 +45,10 @@ class MachineForm(Form):
     activity_id = SelectField('Activiteit', [InputRequired('Voer alstublieft de activiteit in')], coerce=int)
     center_id = SelectField('Center', [InputRequired('Voer alstublieft de locatie in')], coerce=int)
 
+
+class EditForm(Form):
+    street = StringField('Straat', [Length(max=255), InputRequired('Voer alstublieft uw straat in')])
+    house_number = IntegerField('Huisnummer', [InputRequired('Voer alstublieft uw huisnummer in')])
+    zip_code = StringField('Postcode', [Length(min=6, max=6), InputRequired('Voer alstublieft uw postcode in')])
+    city = StringField('Plaats', [Length(max=255), InputRequired('Voer alstublieft uw plaats in')])
+    phone_number = IntegerField('Telefoonnummer', [InputRequired('Voer alstublieft uw telefoonnummer in')])

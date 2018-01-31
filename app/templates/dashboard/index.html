@@ -46,5 +46,23 @@
                 </a>
             </div>
         </div>
+        <div class="demo-card-wide mdl-card mdl-shadow--2dp mdl-cell" style="min-height: 0;">
+            <div class="mdl-card__title">
+                <h2 class="mdl-card__title-text">Uw Gegevens</h2>
+            </div>
+            <div class="mdl-card__supporting-text">
+                {{ current_user.construct_name() }}<br>
+                {{ current_user.street }} {{ current_user.house_number }}<br>
+                {{ current_user.zip_code }}<br>
+                {{ current_user.city }}<br>
+                {{ current_user.phone_number }}<br>
+                {{ current_user.email }}<br>
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+                <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="{{ url_for('dashboard.edit_user') }}">
+                    Bewerken
+                </a>
+            </div>
+        </div>
     </div>
 {% endblock %}

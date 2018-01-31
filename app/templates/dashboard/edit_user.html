@@ -1,0 +1,29 @@
+{% extends 'dashboard/layout.html' %}
+{% import 'macros.html' as macros %}
+{% block main %}
+    <div class="mdl-grid">
+        <div class="mdl-cell--4-col"></div>
+        <div class="mdl-cell--4-col">
+            <form method="POST" action="{{ url_for('dashboard.edit_user') }}">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    {{ macros.generate_input(form.street) }}
+                </div><br>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    {{ macros.generate_input(form.house_number) }}
+                </div><br>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    {{ macros.generate_input(form.zip_code) }}
+                </div><br>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    {{ macros.generate_input(form.city) }}
+                </div><br>
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    {{ macros.generate_input(form.phone_number) }}
+                </div><br><br>
+                <div>
+                    <input type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" name="submit">
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

@@ -6,7 +6,7 @@ from flask import Blueprint, render_template, redirect, url_for, request
 from flask_login import login_required, current_user
 
 from app import db
-from app.forms import MeasurementForm
+from app.forms import MeasurementForm, EditForm
 from app.models import Activity, Card, Center, Check, Exercise, Machine, Measurement, User
 
 mod_dashboard = Blueprint('dashboard', __name__)
@@ -95,3 +95,12 @@ def activities():
     return render_template('dashboard/exercises.html', db=db, Exercise=Exercise, math=math)
 
 
+@mod_dashboard.route('/edit_user', methods=['GET', 'POST'])
+@login_required
+def edit_user():
+    form = EditForm(request.form, current_user)
+    if request.method == 'POST' and form.validate():
+        form.populate_obj(current_user)
+        db.session.commit()
+        return redirect(url_for('dashboard.index'))
+    return render_template('dashboard/edit_user.html', form=form)

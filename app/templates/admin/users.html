@@ -1,0 +1,41 @@
+{% extends 'admin/layout.html' %}
+{% from 'macros.html' import yes_no %}
+{% block header_title %}
+    Gebruikersbeheer
+{% endblock %}
+{% block title %}
+    Gebruikersbeheer
+{% endblock %}
+{% block main %}
+    <div class="margin">
+        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+            <thead>
+            <tr>
+                <th>Gebruikers ID</th>
+                <th class="mdl-data-table__cell--non-numeric">Voornaam</th>
+                <th class="mdl-data-table__cell--non-numeric">Achternaam</th>
+                <th class="mdl-data-table__cell--non-numeric">Adres</th>
+                <th>Telefoonnummer</th>
+                <th class="mdl-data-table__cell--non-numeric">Email-adres</th>
+                <th class="mdl-data-table__cell--non-numeric">Admin</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in db.session.query(User).all() %}
+                <tr>
+                    <td>{{ user.user_id }}</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ user.first_name }}</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ user.last_name }}</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ user.construct_address() }}</td>
+                    <td>{{ user.phone_number }}</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ user.email }}</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ yes_no(user.admin) }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <a href="{{ url_for('admin.add_machine') }}" id="view-source" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+        <i class="material-icons">add</i>
+    </a>
+{% endblock %}

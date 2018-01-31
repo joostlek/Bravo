@@ -1,0 +1,17 @@
+{% extends 'admin/layout.html' %}
+{% import 'macros.html' as macros %}
+{% block main %}
+    <div class="mdl-grid">
+        <div class="mdl-cell--4-col"></div>
+        <div class="mdl-cell--4-col">
+            <form method="POST" action="{{ url_for('admin.add_card') }}">
+                <div>
+                    {{ form.user_id }}
+                </div><br>
+                <div>
+                    <input type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" name="submit">
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

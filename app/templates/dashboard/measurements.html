@@ -1,0 +1,100 @@
+{% extends 'dashboard/layout.html' %}
+{% block header_title %}
+    Gewicht
+{% endblock %}
+{% block title %}
+    Gewicht
+{% endblock %}
+{% block head %}
+    {% if current_user.measurements|length > 1 %}
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+            google.charts.load('current', {'packages':['line', 'table']});
+            google.charts.setOnLoadCallback(drawChart);
+            google.charts.setOnLoadCallback(drawTable);
+
+            var dat = [{% for measurement in current_user.measurements %}
+                [new Date({{ measurement.date.strftime('%Y, %m, %d') }}), {v: {{ measurement.weight }}, f: '{{ measurement.weight }} kg'}],
+            {% endfor %}];
+            function drawChart() {
+                var data = new google.visualization.DataTable();
+                data.addColumn('date', 'Datum');
+                data.addColumn('number', 'Gewicht');
+                data.addRows(dat);
+                var container = document.getElementById('curve_chart');
+                var options = {
+                    title: 'Gewicht in kg',
+                    curveType: 'function',
+                    width: "100%",
+                    height: "100%"
+                };
+                var chart = new google.charts.Line(container);
+                chart.draw(data, options);
+            }
+
+            function drawTable() {
+                var data = new google.visualization.DataTable();
+                data.addColumn('date', 'Datum');
+                data.addColumn('number', 'Gewicht');
+                data.addRows(dat);
+                var cssClassNames = {
+                    'headerRow': '',
+                    'tableRow': '',
+                    'oddTableRow': '',
+                    'selectedTableRow': 'a',
+                    'hoverTableRow': '',
+                    'headerCell': '',
+                    'tableCell': '',
+                    'rowNumberCell': ''
+                };
+                var options = {
+                    width: '100%',
+                    cssClassNames: cssClassNames
+                };
+                var table = new google.visualization.Table(document.getElementById('table_div'));
+
+                google.visualization.events.addListener(table, "ready", materialize);
+                table.draw(data, options);
+            }
+
+            function materialize() {
+                var tab = document.getElementsByClassName('google-visualization-table-table')[0];
+                tab.className = 'mdl-data-table mdl-js-data-table';
+                tab.style = 'border:0; width:100%;';
+                clear('google-visualization-table');
+                clear('google-visualization-table-th');
+                clear('google-visualization-table-td');
+                clear('google-visualization-table-tr-head');
+                clear('google-visualization-table-tr-even');
+                clear('google-visualization-table-tr-odd');
+                clear('google-visualization-table-type-date');
+                function clear(className) {
+                    var clearList = document.getElementsByClassName(className);
+                    for (var i = 0; i < clearList.length; i++) {
+                        clearList[i].className = '';
+                    }
+                }
+            }
+        </script>
+    {% endif %}
+{% endblock %}
+{% block main %}
+    <div class="mdl-grid">
+        <div class="mdl-cell--8-col mdl-shadow--2dp mdl-cell mdl-card demo-card-wide">
+            {% if current_user.measurements|length > 1 %}
+                <div id="curve_chart" style="margin: 8px; height: 500px;"></div>
+            {% else %}
+                <div class="mdl-card__title">Nog niet genoeg data voor een grafiek</div>
+            {% endif %}
+        </div>
+{#        <div class="mdl-cell--4-col mdl-shadow--2dp mdl-cell mdl-card demo-card-wide">#}
+            <div id="table_div" class="mdl-cell--4-col mdl-cell mdl-card mdl-shadow--2dp"></div>
+{#        </div>#}
+    </div>
+    <a href="{{ url_for('dashboard.add_measurement') }}" id="view-source" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+        <i class="material-icons">add</i>
+    </a>
+    <script>
+
+    </script>
+{% endblock %}

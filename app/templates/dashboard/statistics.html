@@ -1,0 +1,144 @@
+{% extends 'dashboard/layout.html' %}
+{% block header_title %}
+    Statistieken
+{% endblock %}
+{% block title %}
+    Statistieken
+{% endblock %}
+{% block head %}
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {'packages':['line', 'table', 'bar', 'corechart']});
+        google.charts.setOnLoadCallback(drawActiveTime);
+        google.charts.setOnLoadCallback(drawBurntCalories);
+        google.charts.setOnLoadCallback(drawVisits);
+        google.charts.setOnLoadCallback(drawActivities);
+
+        var stats = {{ stats|tojson }};
+        var counts = {{ count|tojson }};
+        function drawActiveTime() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Maand');
+            data.addColumn('number', 'Tijd actief');
+            for (var date in stats) {
+                if (stats.hasOwnProperty(date)) {
+                    var f;
+                    if (stats[date]['time_active'] > 60) {
+                        var time = stats[date]['time_active'];
+                        var minutes = Math.floor(stats[date]['time_active'] / 60);
+                        var seconds = Math.floor(time - minutes * 60);
+                        f = minutes + ' minuten, ' + seconds + ' seconden';
+                    } else {
+                        f = stats[date]['time_active'].toFixed(2) + ' seconden'
+                    }
+                    data.addRow([date, {v: stats[date]['time_active'], f: f}])
+                }
+            }
+            var options = {
+                chart: {
+                    title: 'Tijd actief',
+                    subtitle: 'De tijd waarin je actief bent geweest'
+                },
+                width: '100%',
+                height: 400,
+                bar: {groupWidth: "95%"},
+                legend: {position: 'none'
+                }
+            };
+            var chart = new google.charts.Bar(document.getElementById('active_time'));
+            chart.draw(data, options);
+        }
+
+
+        function drawBurntCalories() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Maand');
+            data.addColumn('number', 'Calorieën verbrand');
+            for (var date in stats) {
+                if (stats.hasOwnProperty(date)) {
+                    data.addRow([date, {v: stats[date]['burnt_calories'], f: stats[date]['burnt_calories'].toFixed(2) + ' calorieën'}])
+                }
+            }
+            var container = document.getElementById('burnt_calories');
+            var options = {
+                chart: {
+                    title: 'Verbrande Calorieën',
+                    subtitle: 'De hoeveelheid calorieën die je verbrand hebt'
+                },
+                width: '100%',
+                height: 400,
+                bar: {groupWidth: "95%"},
+                legend: {position: 'none'
+                }
+            };
+            var chart = new google.charts.Bar(container);
+            chart.draw(data, options);
+        }
+
+
+        function drawVisits() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Maand');
+            data.addColumn('number', 'Bezoeken');
+            for (var date in stats) {
+                if (stats.hasOwnProperty(date)) {
+                    data.addRow([date, {v: stats[date]['visits'], f: stats[date]['visits'].toFixed(2) + ' bezoeken'}])
+                }
+            }
+            var container = document.getElementById('visits');
+            var options = {
+                chart: {
+                    title: 'Bezoeken',
+                    subtitle: 'Totaal aantal bezoeken per maand'
+                },
+                width: '100%',
+                height: 400,
+                bar: {groupWidth: "95%"},
+                legend: {position: 'none'
+                }
+            };
+            var chart = new google.charts.Bar(container);
+            chart.draw(data, options);
+        }
+
+
+        function drawActivities() {
+            var data = new google.visualization.DataTable();
+            data.addColumn('string', 'Maand');
+            data.addColumn('number', 'Aantal activiteiten');
+            for (var activity in counts) {
+                if (counts.hasOwnProperty(activity)) {
+                    data.addRow([activity, counts[activity]])
+                }
+            }
+            var container = document.getElementById('machine');
+            var options = {
+                title: 'Aantal oefeningen',
+                width: '100%',
+                height: 400
+            };
+            var chart = new google.visualization.PieChart(container);
+            chart.draw(data, options);
+        }
+    </script>
+{% endblock %}
+{% block main %}
+    <div class="mdl-grid">
+        <div class="mdl-cell--6-col mdl-shadow--2dp mdl-card mdl-cell">
+            <div id="active_time" style="height: 400px;" class="margin">
+            </div>
+        </div>
+        <div class="mdl-cell--6-col mdl-shadow--2dp mdl-card mdl-cell">
+            <div id="burnt_calories" style="height: 400px;" class="margin">
+            </div>
+        </div>
+        <div class="mdl-cell--6-col mdl-shadow--2dp mdl-card mdl-cell">
+            <div id="visits" style="height: 400px;" class="margin">
+            </div>
+        </div>
+        <div class="mdl-cell--6-col mdl-shadow--2dp mdl-card mdl-cell">
+            <div id="machine" style="height: 400px;" class="margin">
+            </div>
+        </div>
+    </div>
+{% endblock %}

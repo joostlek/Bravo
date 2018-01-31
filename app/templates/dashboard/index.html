@@ -1,0 +1,50 @@
+{% extends 'dashboard/layout.html' %}
+{% block title %}
+    Dashboard
+{% endblock %}
+{% block header_title %}
+    Dashboard
+{% endblock %}
+{% block main %}
+    <div class="mdl-grid demo-content">
+        <div class="demo-card-wide mdl-card mdl-shadow--2dp mdl-cell" style="min-height: 0;">
+            <div class="mdl-card__title">
+                <h2 class="mdl-card__title-text">Statistieken</h2>
+            </div>
+            <div class="mdl-card__supporting-text">
+                Bekijk nu uw sportprestaties terug in handige grafieken
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+                <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="{{ url_for('dashboard.stats') }}">
+                    Bekijken
+                </a>
+            </div>
+        </div>
+        <div class="demo-card-wide mdl-card mdl-shadow--2dp mdl-cell" style="min-height: 0;">
+            <div class="mdl-card__title">
+                <h2 class="mdl-card__title-text">Gewicht</h2>
+            </div>
+            <div class="mdl-card__supporting-text">
+                Zie vooruitgang in het afvallen, door uw gewicht actueel te houden, wordt alles goed berekent.
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+                <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="{{ url_for('dashboard.measurements') }}">
+                    Bekijken
+                </a>
+            </div>
+        </div>
+        <div class="demo-card-wide mdl-card mdl-shadow--2dp mdl-cell" style="min-height: 0;">
+            <div class="mdl-card__title">
+                <h2 class="mdl-card__title-text">Activiteit</h2>
+            </div>
+            <div class="mdl-card__supporting-text">
+                Bekijk nu uw sportprestaties terug in een overzichtelijke tabel
+            </div>
+            <div class="mdl-card__actions mdl-card--border">
+                <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect" href="{{ url_for('dashboard.activities') }}">
+                    Bekijken
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends 'admin/layout.html' %}
+{% import 'macros.html' as macros %}
+{% block main %}
+    <div class="mdl-grid">
+        <div class="mdl-cell--4-col"></div>
+        <div class="mdl-cell--4-col">
+            <form method="POST" action="{{ url_for('admin.add_machine') }}">
+                <div>
+                    {{ form.activity_id }}
+                </div><br>
+                <div>
+                    {{ form.center_id }}
+                </div><br>
+                <div>
+                    <input type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" name="submit">
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

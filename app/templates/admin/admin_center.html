@@ -1,0 +1,29 @@
+{% extends 'admin/layout.html' %}
+{% block title %}
+    Admin Center
+{% endblock %}
+{% block header_title %}
+    Admin Center
+{% endblock %}
+{% block main %}
+    <div class="mdl-grid demo-content">
+        <div class="demo-card-wide mdl-card mdl-shadow--2dp mdl-cell">
+            <table class="mdl-data-table mdl-js-data-table" style="width: 100%;">
+                <thead>
+                <tr>
+                    <th class="mdl-data-table__cell--non-numeric">Entity</th>
+                    <th>Quantity</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in amounts %}
+                    <tr>
+                        <td class="mdl-data-table__cell--non-numeric">{{ item['entity']|e }}</td>
+                        <td>{{ item['amount']|e }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

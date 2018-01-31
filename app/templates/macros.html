@@ -1,0 +1,25 @@
+{% macro generate_input(form) %}
+    {{ form(class="mdl-textfield__input") }}
+    {{ form.label(class="mdl-textfield__label") }}
+    {% if form.errors %}
+        <span class="mdl-textfield__error">
+            {% for error in form.errors %}
+                {{ error }}<br>
+            {% endfor %}
+        </span>
+    {% endif %}
+{% endmacro %}
+{% macro yes_no(boolean) %}
+    {% if boolean == True %}
+        Yes
+    {% else %}
+        No
+    {% endif %}
+{% endmacro %}
+{% macro in_out(boolean) %}
+    {% if boolean == True %}
+        In
+    {% else %}
+        Out
+    {% endif %}
+{% endmacro %}

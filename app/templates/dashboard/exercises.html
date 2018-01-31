@@ -1,0 +1,40 @@
+{% extends 'dashboard/layout.html' %}
+{% block header_title %}
+    Activiteiten
+{% endblock %}
+{% block title %}
+    Activiteiten
+{% endblock %}
+{% block main %}
+    <div class="margin">
+        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+            <thead>
+            <tr>
+                <th class="mdl-data-table__cell--non-numeric">Activiteit</th>
+                <th class="mdl-data-table__cell--non-numeric">Totale tijd</th>
+                <th class="mdl-data-table__cell--non-numeric">Verbrande Calorieen</th>
+                <th class="mdl-data-table__cell--non-numeric">Gemiddelde Snelheid</th>
+                <th class="mdl-data-table__cell--non-numeric">Sportschool</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for exercise in current_user.exercises %}
+                <tr>
+                    <td class="mdl-data-table__cell--non-numeric">{{ exercise.machine.activity.name }}</td>
+                    {% if exercise.time > 60 %}
+                        {% set time = exercise.time %}
+                        {% set minutes = math.floor(exercise.time / 60) %}
+                        {% set seconds = time - 60 * minutes %}
+                        <td class="mdl-data-table__cell--non-numeric">{{ minutes }} m {{ seconds }} sec</td>
+                    {% else %}
+                        <td class="mdl-data-table__cell--non-numeric">{{ exercise.time }} sec</td>
+                    {% endif %}
+                    <td class="mdl-data-table__cell--non-numeric">{{ "{0:.2f}".format(exercise.burnt_calories) }}</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ exercise.constant.speed or '--' }} km/h</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ exercise.machine.center.name }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

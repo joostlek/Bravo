@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A front-end template that helps you build fast, modern mobile web apps.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>{% block title %}{% endblock %}</title>
+
+    <!-- Add to homescreen for Chrome on Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <link rel="icon" sizes="192x192" href="images/android-desktop.png">
+
+    <!-- Add to homescreen for Safari on iOS -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="apple-mobile-web-app-title" content="Material Design Lite">
+    <link rel="apple-touch-icon-precomposed" href="images/ios-desktop.png">
+
+    <!-- Tile icon for Win8 (144x144 + tile color) -->
+    <meta name="msapplication-TileImage" content="images/touch/ms-touch-icon-144x144-precomposed.png">
+    <meta name="msapplication-TileColor" content="#3372DF">
+
+    <link rel="shortcut icon" href="images/favicon.png">
+    {% assets "dashboard_css" %}
+        <link rel="stylesheet" href="{{ ASSET_URL }}" />
+    {% endassets %}
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    {% block head %}
+
+    {% endblock %}
+</head>
+<body>
+<div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+    <header class="demo-header mdl-layout__header">
+        <div class="mdl-layout__header-row">
+            <span class="mdl-layout-title">{% block header_title %}{% endblock %}</span>
+            <div class="mdl-layout-spacer"></div>
+        </div>
+    </header>
+    <div class="demo-drawer mdl-layout__drawer mdl-color--amber-400 mdl-color-text--blue-grey-900">
+        <header class="demo-drawer-header">
+            <img src="../static/img/bravo_logo.png" class="demo-avatar">
+            <div class="demo-avatar-dropdown">
+                <span>{{ current_user.construct_name() }}</span>
+                <div class="mdl-layout-spacer"></div>
+            </div>
+        </header>
+        <nav class="demo-navigation mdl-navigation mdl-color--amber-50">
+            <a class="mdl-navigation__link mdl-color-text--blue-grey-600" href="{{ url_for('dashboard.index') }}"><i class="mdl-color-text--blue-400 material-icons" role="presentation">home</i>Home</a>
+            <a class="mdl-navigation__link mdl-color-text--blue-grey-600" href="{{ url_for('dashboard.stats') }}"><i class="mdl-color-text--blue-400 material-icons" role="presentation">assessment</i>Statistieken</a>
+            <a class="mdl-navigation__link mdl-color-text--blue-grey-600" href="{{ url_for('dashboard.measurements') }}"><i class="mdl-color-text--blue-400 material-icons" role="presentation">trending_down</i>Gewicht</a>
+            <a class="mdl-navigation__link mdl-color-text--blue-grey-600" href="{{ url_for('dashboard.activities') }}"><i class="mdl-color-text--blue-400 material-icons" role="presentation">fitness_center</i>Activiteit</a>
+            {% if current_user.admin %}
+                <div class="seperator"></div>
+                <a class="mdl-navigation__link mdl-color-text--blue-600" href="{{ url_for('admin.admin_center') }}"><i class="mdl-color-text--blue-400 material-icons" role="presentation">developer_board</i>Admin Center</a>
+                <a class="mdl-navigation__link mdl-color-text--blue-grey-600" href="{{ url_for('admin.centers') }}"><i class="mdl-color-text--blue-400 material-icons" role="presentation">domain</i>Fitness Centers</a>
+                <a class="mdl-navigation__link mdl-color-text--blue-grey-600" href="{{ url_for('admin.cards') }}"><i class="mdl-color-text--blue-400 material-icons" role="presentation">credit_card</i>Kaartbeheer</a>
+                <a class="mdl-navigation__link mdl-color-text--blue-grey-600" href="{{ url_for('admin.checks') }}"><i class="mdl-color-text--blue-400 material-icons" role="presentation">import_export</i>Transactiebeheer</a>
+                <a class="mdl-navigation__link mdl-color-text--blue-grey-600" href="{{ url_for('admin.activities') }}"><i class="mdl-color-text--blue-400 material-icons" role="presentation">pool</i>Activiteitbeheer</a>
+                <a class="mdl-navigation__link mdl-color-text--blue-grey-600" href="{{ url_for('admin.machines') }}"><i class="mdl-color-text--blue-400 material-icons" role="presentation">fitness_center</i>Machinebeheer</a>
+                <a class="mdl-navigation__link mdl-color-text--blue-grey-600" href="{{ url_for('admin.users') }}"><i class="mdl-color-text--blue-400 material-icons" role="presentation">person</i>Gebruikers</a>
+            {% endif %}
+            <div class="mdl-layout-spacer"></div>
+            <a class="mdl-navigation__link mdl-color-text--blue-grey-600" href="{{ url_for('auth.signout') }}"><i class="mdl-color-text--blue-grey-400 material-icons" role="presentation">power_settings_new</i><span class="visuallyhidden">Uitloggen</span></a>
+
+
+        </nav>
+    </div>
+    <main class="mdl-layout__content mdl-color--grey-100">
+        {% block main %}{% endblock %}
+    </main>
+</div>
+{% assets "dashboard_js" %}
+    <script type="text/javascript" src="{{ ASSET_URL }}"></script>
+{% endassets %}
+</body>
+</html>

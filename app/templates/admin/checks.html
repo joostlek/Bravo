@@ -1,0 +1,34 @@
+{% extends 'admin/layout.html' %}
+{% from 'macros.html' import in_out %}
+{% block header_title %}
+    Transactiebeheer
+{% endblock %}
+{% block title %}
+    Transactiebeheer
+{% endblock %}
+{% block main %}
+    <div class="margin">
+        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+            <thead>
+            <tr>
+                <th class="mdl-data-table__cell--non-numeric">Kaart ID</th>
+                <th class="mdl-data-table__cell--non-numeric">Naam</th>
+                <th class="mdl-data-table__cell--non-numeric">Center</th>
+                <th class="mdl-data-table__cell--non-numeric">Tijd</th>
+                <th class="mdl-data-table__cell--non-numeric">In/Uit</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for check in db.session.query(Check).all() %}
+                <tr>
+                    <td class="mdl-data-table__cell--non-numeric">{{ check.card_id }}</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ check.card.user.construct_name() }}</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ check.center.name }}</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ check.time }}</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ in_out(check.in_out) }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

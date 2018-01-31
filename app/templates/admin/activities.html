@@ -1,0 +1,31 @@
+{% extends 'admin/layout.html' %}
+{% from 'macros.html' import yes_no %}
+{% block header_title %}
+    Activiteitenbeheer
+{% endblock %}
+{% block title %}
+    Activiteitenbeheer
+{% endblock %}
+{% block main %}
+    <div class="margin">
+        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+            <thead>
+            <tr>
+                <th class="mdl-data-table__cell--non-numeric">Activiteit ID</th>
+                <th class="mdl-data-table__cell--non-numeric">Naam</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for activity in db.session.query(Activity).all() %}
+                <tr>
+                    <td class="mdl-data-table__cell--non-numeric">{{ activity.activity_id }}</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ activity.name }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <a href="{{ url_for('admin.add_activity') }}" id="view-source" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+        <i class="material-icons">add</i>
+    </a>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'admin/layout.html' %}
+{% block title %}
+    Centers
+{% endblock %}
+{% block header_title %}
+    Centers
+{% endblock %}
+{% block main %}
+    <div class="margin">
+        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+            <thead>
+            <tr>
+                <th>Center ID</th>
+                <th class="mdl-data-table__cell--non-numeric">Naam</th>
+                <th class="mdl-data-table__cell--non-numeric">Adres</th>
+                <th class="mdl-data-table__cell--non-numeric">Acties</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for center in db.session.query(Center).all() %}
+                <tr>
+                    <td>{{ center.center_id }}</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ center.name }}</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ center.construct_address()  }}</td>
+                    <td class="mdl-data-table__cell--non-numeric">
+                        <a href="{{ url_for('admin.edit_center', center_id=center.center_id) }}"><i class="mdl-color-text--grey-600 material-icons" role="presentation">mode_edit</i></a>
+                        <a href="{{ url_for('admin.delete_center', center_id=center.center_id) }}"><i class="mdl-color-text--grey-600 material-icons" role="presentation">delete</i></a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <a href="{{ url_for('admin.add_center') }}" id="view-source" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+        <i class="material-icons">add</i>
+    </a>
+{% endblock %}

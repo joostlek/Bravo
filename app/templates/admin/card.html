@@ -1,0 +1,33 @@
+{% extends 'admin/layout.html' %}
+{% from 'macros.html' import yes_no %}
+{% block header_title %}
+    Kaartenbeheer
+{% endblock %}
+{% block title %}
+    Kaartenbeheer
+{% endblock %}
+{% block main %}
+    <div class="margin">
+        <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+            <thead>
+            <tr>
+                <th class="mdl-data-table__cell--non-numeric">Kaart ID</th>
+                <th class="mdl-data-table__cell--non-numeric">Gebruikers ID</th>
+                <th class="mdl-data-table__cell--non-numeric">Actief</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for card in db.session.query(Card).all() %}
+                <tr>
+                    <td class="mdl-data-table__cell--non-numeric">{{ card.card_id }}</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ card.user.construct_name() }}</td>
+                    <td class="mdl-data-table__cell--non-numeric">{{ yes_no(card.active) }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <a href="{{ url_for('admin.add_card') }}" id="view-source" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
+        <i class="material-icons">add</i>
+    </a>
+{% endblock %}

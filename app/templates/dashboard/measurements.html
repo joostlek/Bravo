@@ -14,7 +14,10 @@
             google.charts.setOnLoadCallback(drawTable);
 
             var dat = [{% for measurement in current_user.measurements %}
-                [new Date({{ measurement.date.strftime('%Y, %m, %d') }}), {v: {{ measurement.weight }}, f: '{{ measurement.weight }} kg'}],
+                {% set year = measurement.date.strftime('%Y') %}
+                {% set month = measurement.date.strftime('%m')|int - 1 %}
+                {% set day = measurement.date.strftime('%d') %}
+                [new Date({{ year}}, {{month}}, {{day}}), {v: {{ measurement.weight }}, f: '{{ measurement.weight }} kg'}],
             {% endfor %}];
             function drawChart() {
                 var data = new google.visualization.DataTable();
